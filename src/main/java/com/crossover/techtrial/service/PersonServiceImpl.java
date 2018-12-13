@@ -41,7 +41,6 @@ public class PersonServiceImpl implements PersonService{
     Optional<Person> dbPerson = personRepository.findById(personId);
     return dbPerson.orElse(null);
   }
-  
-  
+
 
 }

@@ -6,6 +6,7 @@ package com.crossover.techtrial.controller;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +62,26 @@ public class RideController {
      * Your Implementation Here. And Fill up topDrivers Arraylist with Top
      * 
      */
-    
+
+    Duration duration = Duration.between(endTime, startTime);
+
+    List<Ride> ride= rideService.getAll();
+
+    for(int x= 0;x<=count;x++){
+      if(ride.get(x).getStartTime()==startTime.toString() && ride.get(x).getEndTime()==endTime.toString()){
+
+        TopDriverDTO topDriverDTO = new TopDriverDTO();
+
+        topDriverDTO.setName(ride.get(x).getDriver().getName());
+        topDriverDTO.setEmail(ride.get(x).getDriver().getEmail());
+        topDriverDTO.setAverageDistance(ride.get(x).getDistance().doubleValue());
+        topDriverDTO.setMaxRideDurationInSecods( duration.getSeconds());
+        topDriverDTO.setTotalRideDurationInSeconds(duration.getSeconds());
+
+        topDrivers.add(topDriverDTO);
+      }
+    }
+
     return ResponseEntity.ok(topDrivers);
     
   }
